@@ -1,7 +1,13 @@
 body {
     font-family: 'Roboto', sans-serif;
+    background-image: url('assets/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
   }
   
   .navbar {
-    font-size: 1.2rem; /* Ajusta el tamaño según tus necesidades */
+    font-size: 1.1rem;
   }
