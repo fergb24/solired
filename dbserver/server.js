@@ -76,15 +76,17 @@ app.get('/user', async (req, res) => {
     const decoded = jwt.verify(token, 'tu_secreto');
     const userId = decoded.id; // Extraer el ID del usuario del token
 
-    // Usar la información del token
-    const user = {
-      id: userId,
-      username: decoded.username, 
-    };
+    // Obtener la información del usuario de la base de datos
+    const result = await pool.query('SELECT * FROM usuario WHERE id_usu = $1', [userId]);
 
-    // Elimina la contraseña del objeto de usuario antes de enviarlo
-    delete user.contra_usu; // Borrar la contraseña para no enviarla
-    return res.json(user);
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      // Elimina la contraseña del objeto de usuario antes de enviarlo
+      delete user.contra_usu;
+      return res.json(user);
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
   } catch (error) {
     console.error(error);
     return res.status(401).json({ message: 'Token inválido' });

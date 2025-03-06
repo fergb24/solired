@@ -1,12 +1,27 @@
-<div *ngIf="user">
-    <h2>Perfil de Usuario</h2>
-    <p><strong>Nombre:</strong> {{ user.nombre_usu }}</p>
-    <p><strong>Email:</strong> {{ user.email_usu }}</p>
-    <p><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
-    <p><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
-    <!-- Si tienes una imagen de perfil, puedes mostrarla aquí -->
-    <img *ngIf="user.profileImage" [src]="user.profileImage" alt="Imagen de perfil" />
-  </div>
-  <div *ngIf="!user">
-    <p>No hay información de usuario disponible.</p>
+<div class="container mt-4">
+    <h2 class="text-center">Perfil de Usuario</h2>
+    
+    <div *ngIf="loading" class="text-center">
+      <p>Cargando información del usuario...</p>
+    </div>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  
+    <div *ngIf="user">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Información del Usuario</h5>
+          <p class="card-text"><strong>Nombre:</strong> {{ user.nombre_usu }}</p>
+          <p class="card-text"><strong>Email:</strong> {{ user.email_usu }}</p>
+          <p class="card-text"><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
+          <p class="card-text"><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="!user && !loading" class="alert alert-warning" role="alert">
+      No hay información de usuario disponible.
+    </div>
   </div>
