@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <h2 class="text-center">Perfil de Usuario</h2>
-    
+  
     <div *ngIf="loading" class="text-center">
       <p>Cargando información del usuario...</p>
     </div>
@@ -17,6 +17,7 @@
           <p class="card-text"><strong>Email:</strong> {{ user.email_usu }}</p>
           <p class="card-text"><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
           <p class="card-text"><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
+          <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
         </div>
       </div>
     </div>

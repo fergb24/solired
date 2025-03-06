@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router'; // Importa Router para redirigir
 
 @Component({
   selector: 'app-profile',
@@ -14,10 +15,10 @@ export class ProfileComponent implements OnInit {
   loading: boolean = true; // Propiedad para manejar el estado de carga
   errorMessage: string | null = null; // Propiedad para almacenar mensajes de error
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {} // Inyecta Router
 
   ngOnInit() {
-    // Llama al método getUser () para obtener la información del usuario
+    // Llama al método getUser  () para obtener la información del usuario
     this.authService.getUser ().subscribe(
       (data) => {
         this.user = data; // Almacena la información del usuario
@@ -29,5 +30,11 @@ export class ProfileComponent implements OnInit {
         this.loading = false; // Cambia el estado de carga a false
       }
     );
+  }
+
+  // Método para cerrar sesión
+  logout(): void {
+    this.authService.logout(); // Llama al método de logout del servicio
+    this.router.navigate(['/auth']); // Redirige a la página de login/registro
   }
 }
