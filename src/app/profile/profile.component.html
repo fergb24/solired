@@ -1,28 +1,28 @@
 <div class="container mt-4">
     <h2 class="text-center">Perfil de Usuario</h2>
-  
+
     <div *ngIf="loading" class="text-center">
-      <p>Cargando información del usuario...</p>
+        <p>Cargando información del usuario...</p>
     </div>
-  
+
     <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-      {{ errorMessage }}
+        {{ errorMessage }}
     </div>
-  
+
     <div *ngIf="user">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Información del Usuario</h5>
-          <p class="card-text"><strong>Nombre:</strong> {{ user.nombre_usu }}</p>
-          <p class="card-text"><strong>Email:</strong> {{ user.email_usu }}</p>
-          <p class="card-text"><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
-          <p class="card-text"><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
-          <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+        <div class="card" style="background-color: rgba(245, 245, 245, 0.8);">
+            <div class="card-body">
+                <h5 class="card-title">Información del Usuario</h5>
+                <p class="card-text"><strong>Nombre:</strong> {{ user.nombre_usu }}</p>
+                <p class="card-text"><strong>Email:</strong> {{ user.email_usu }}</p>
+                <p class="card-text"><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
+                <p class="card-text"><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
+                <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+            </div>
         </div>
-      </div>
     </div>
-  
+
     <div *ngIf="!user && !loading" class="alert alert-warning" role="alert">
-      No hay información de usuario disponible.
+        No hay información de usuario disponible.
     </div>
-  </div>
+</div>
