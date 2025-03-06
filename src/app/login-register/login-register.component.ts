@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login-register',
@@ -11,6 +12,10 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, 
 })
 export class LoginRegisterComponent {
   isLogin = true;
+
+  constructor(private authService: AuthService){ 
+
+  } 
 
   // Formulario Login
   loginForm = new FormGroup({
@@ -51,7 +56,14 @@ export class LoginRegisterComponent {
       }
     } else {
       if (this.registerForm.valid) {
-        console.log('Datos Registro:', this.registerForm.value);
+        this.authService.register(this.registerForm.value).subscribe(
+          response => {
+            console.log('Usuario registrado:', response);
+          },
+          error => {
+            console.error('Error al registrar', error);
+          }
+        );
       }
     }
   }
@@ -66,5 +78,5 @@ export class LoginRegisterComponent {
   get rPhone() { return this.registerForm.get('phone'); }
   get rPassword() { return this.registerForm.get('password'); }
   get rConfirmPassword() { return this.registerForm.get('confirmPassword'); }
-  get rIsAdmin() { return this.registerForm.get('isAdmin'); } // Helper para isAdmin
+  get rIsAdmin() { return this.registerForm.get('isAdmin'); }
 }
