@@ -132,6 +132,14 @@
             <div *ngIf="registerForm.errors?.['passwordMismatch']">Las contraseñas no coinciden</div>
           </div>
         </div>
+
+        <div class="mb-3">
+            <label class="form-label">¿Es Administrador?</label>
+            <select class="form-select" formControlName="isAdmin">
+              <option value="false" selected>No</option>
+              <option value="true">Sí</option>
+            </select>
+        </div>
   
         <button type="submit" 
                 class="btn btn-primary w-100 py-2 rounded-pill" 

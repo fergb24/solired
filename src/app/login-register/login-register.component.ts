@@ -25,7 +25,8 @@ export class LoginRegisterComponent {
     username: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)]),
     phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    confirmPassword: new FormControl('', [Validators.required])
+    confirmPassword: new FormControl('', [Validators.required]),
+    isAdmin: new FormControl('false') // Valor por defecto es 'false'
   }, { validators: this.passwordMatchValidator });
 
   // Validador de coincidencia de contraseñas
