@@ -59,6 +59,7 @@ export class LoginRegisterComponent {
         this.authService.register(this.registerForm.value).subscribe(
           response => {
             console.log('Usuario registrado:', response);
+            this.registerForm.reset();
           },
           error => {
             console.error('Error al registrar', error);
