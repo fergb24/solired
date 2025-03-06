@@ -1,30 +1,68 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-register',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login-register.component.html',
   styleUrls: ['./login-register.component.css']
 })
 export class LoginRegisterComponent {
-  isLogin: boolean = true; // Estado inicial para mostrar el formulario de login
-  email: string = '';
-  password: string = '';
+  isLogin = true;
+
+  // Formulario Login
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+  });
+
+  // Formulario Registro
+  registerForm = new FormGroup({
+    fullName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)]),
+    phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required])
+  }, { validators: this.passwordMatchValidator });
+
+  // Validador de coincidencia de contraseñas
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    return password && confirmPassword && password.value !== confirmPassword.value 
+      ? { passwordMismatch: true } 
+      : null;
+  }
 
   toggleForm() {
-    this.isLogin = !this.isLogin; // Cambia entre login y registro
+    this.isLogin = !this.isLogin;
+    this.loginForm.reset();
+    this.registerForm.reset();
   }
 
   onSubmit() {
-    // Aquí puedes manejar el envío del formulario
     if (this.isLogin) {
-      // Lógica para iniciar sesión
-      console.log('Iniciar sesión con:', this.email, this.password);
+      if (this.loginForm.valid) {
+        console.log('Datos Login:', this.loginForm.value);
+      }
     } else {
-      // Lógica para registrarse
-      console.log('Registrarse con:', this.email, this.password);
+      if (this.registerForm.valid) {
+        console.log('Datos Registro:', this.registerForm.value);
+      }
     }
   }
+
+  // Helpers para acceder a los controles
+  get lEmail() { return this.loginForm.get('email'); }
+  get lPassword() { return this.loginForm.get('password'); }
+  
+  get rFullName() { return this.registerForm.get('fullName'); }
+  get rEmail() { return this.registerForm.get('email'); }
+  get rUsername() { return this.registerForm.get('username'); }
+  get rPhone() { return this.registerForm.get('phone'); }
+  get rPassword() { return this.registerForm.get('password'); }
+  get rConfirmPassword() { return this.registerForm.get('confirmPassword'); }
 }

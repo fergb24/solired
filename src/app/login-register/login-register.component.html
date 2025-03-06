@@ -1,4 +1,3 @@
-<!-- login-register.component.html -->
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="p-4 rounded shadow" style="background-color: rgba(245, 245, 245, 0.8); width: 40%;">
       
@@ -10,7 +9,7 @@
                   [style.background-color]="isLogin ? '#5AB8FF' : 'white'"
                   [style.color]="isLogin ? 'white' : '#5AB8FF'"
                   [style.border]="!isLogin ? '2px solid #5AB8FF' : 'none'"
-                  (click)="isLogin = true">
+                  (click)="toggleForm()">
             Iniciar Sesión
           </button>
         </li>
@@ -20,37 +19,125 @@
                   [style.background-color]="!isLogin ? '#5AB8FF' : 'white'"
                   [style.color]="!isLogin ? 'white' : '#5AB8FF'"
                   [style.border]="isLogin ? '2px solid #5AB8FF' : 'none'"
-                  (click)="isLogin = false">
+                  (click)="toggleForm()">
             Registrarse
           </button>
         </li>
       </ul>
   
-      <!-- Contenido del formulario -->
-      <h2 class="text-center mb-4">{{ isLogin ? 'Iniciar Sesión' : 'Registro' }}</h2>
-      <form (ngSubmit)="onSubmit()">
+      <!-- Formulario Login -->
+      <form *ngIf="isLogin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-          <label for="email" class="form-label">Email:</label>
+          <label class="form-label">Email:</label>
           <input type="email" 
-                 id="email" 
-                 [(ngModel)]="email" 
-                 name="email" 
                  class="form-control" 
-                 required>
+                 formControlName="email"
+                 [class.is-invalid]="lEmail?.invalid && lEmail?.touched">
+          <div *ngIf="lEmail?.invalid && lEmail?.touched" class="invalid-feedback">
+            <div *ngIf="lEmail?.errors?.['required']">Email requerido</div>
+            <div *ngIf="lEmail?.errors?.['email']">Formato de email inválido</div>
+          </div>
         </div>
+  
         <div class="mb-3">
-          <label for="password" class="form-label">Contraseña:</label>
+          <label class="form-label">Contraseña:</label>
           <input type="password" 
-                 id="password" 
-                 [(ngModel)]="password" 
-                 name="password" 
                  class="form-control" 
-                 required>
+                 formControlName="password"
+                 [class.is-invalid]="lPassword?.invalid && lPassword?.touched">
+          <div *ngIf="lPassword?.invalid && lPassword?.touched" class="invalid-feedback">
+            <div *ngIf="lPassword?.errors?.['required']">Contraseña requerida</div>
+            <div *ngIf="lPassword?.errors?.['minlength']">Mínimo 6 caracteres</div>
+          </div>
         </div>
+  
         <button type="submit" 
                 class="btn btn-primary w-100 py-2 rounded-pill" 
-                style="background-color: #5AB8FF; border-color: #5AB8FF;">
-            {{ isLogin ? 'Iniciar Sesión' : 'Registrarse' }}
+                style="background-color: #5AB8FF; border-color: #5AB8FF;"
+                [disabled]="loginForm.invalid">
+          Iniciar Sesión
+        </button>
+      </form>
+  
+      <!-- Formulario Registro -->
+      <form *ngIf="!isLogin" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Nombre y apellidos:</label>
+          <input type="text" 
+                 class="form-control" 
+                 formControlName="fullName"
+                 [class.is-invalid]="rFullName?.invalid && rFullName?.touched">
+          <div *ngIf="rFullName?.invalid && rFullName?.touched" class="invalid-feedback">
+            <div *ngIf="rFullName?.errors?.['required']">Nombre requerido</div>
+            <div *ngIf="rFullName?.errors?.['minlength']">Mínimo 3 caracteres</div>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Email:</label>
+          <input type="email" 
+                 class="form-control" 
+                 formControlName="email"
+                 [class.is-invalid]="rEmail?.invalid && rEmail?.touched">
+          <div *ngIf="rEmail?.invalid && rEmail?.touched" class="invalid-feedback">
+            <div *ngIf="rEmail?.errors?.['required']">Email requerido</div>
+            <div *ngIf="rEmail?.errors?.['email']">Formato inválido</div>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Nombre de usuario:</label>
+          <input type="text" 
+                 class="form-control" 
+                 formControlName="username"
+                 [class.is-invalid]="rUsername?.invalid && rUsername?.touched">
+          <div *ngIf="rUsername?.invalid && rUsername?.touched" class="invalid-feedback">
+            <div *ngIf="rUsername?.errors?.['required']">Usuario requerido</div>
+            <div *ngIf="rUsername?.errors?.['pattern']">Solo letras, números y _</div>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Teléfono:</label>
+          <input type="tel" 
+                 class="form-control" 
+                 formControlName="phone"
+                 [class.is-invalid]="rPhone?.invalid && rPhone?.touched">
+          <div *ngIf="rPhone?.invalid && rPhone?.touched" class="invalid-feedback">
+            <div *ngIf="rPhone?.errors?.['required']">Teléfono requerido</div>
+            <div *ngIf="rPhone?.errors?.['pattern']">9 dígitos sin espacios</div>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Contraseña:</label>
+          <input type="password" 
+                 class="form-control" 
+                 formControlName="password"
+                 [class.is-invalid]="rPassword?.invalid && rPassword?.touched">
+          <div *ngIf="rPassword?.invalid && rPassword?.touched" class="invalid-feedback">
+            <div *ngIf="rPassword?.errors?.['required']">Contraseña requerida</div>
+            <div *ngIf="rPassword?.errors?.['minlength']">Mínimo 6 caracteres</div>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Repetir Contraseña:</label>
+          <input type="password" 
+                 class="form-control" 
+                 formControlName="confirmPassword"
+                 [class.is-invalid]="rConfirmPassword?.invalid && rConfirmPassword?.touched">
+          <div *ngIf="rConfirmPassword?.invalid && rConfirmPassword?.touched" class="invalid-feedback">
+            <div *ngIf="rConfirmPassword?.errors?.['required']">Confirma la contraseña</div>
+            <div *ngIf="registerForm.errors?.['passwordMismatch']">Las contraseñas no coinciden</div>
+          </div>
+        </div>
+  
+        <button type="submit" 
+                class="btn btn-primary w-100 py-2 rounded-pill" 
+                style="background-color: #5AB8FF; border-color: #5AB8FF;"
+                [disabled]="registerForm.invalid">
+          Registrarse
         </button>
       </form>
     </div>
