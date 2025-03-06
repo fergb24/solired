@@ -26,7 +26,7 @@ export class LoginRegisterComponent {
     phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmPassword: new FormControl('', [Validators.required]),
-    isAdmin: new FormControl('false') // Valor por defecto es 'false'
+    isAdmin: new FormControl('false', [Validators.required]) // Asegúrate de que sea requerido
   }, { validators: this.passwordMatchValidator });
 
   // Validador de coincidencia de contraseñas
@@ -66,4 +66,5 @@ export class LoginRegisterComponent {
   get rPhone() { return this.registerForm.get('phone'); }
   get rPassword() { return this.registerForm.get('password'); }
   get rConfirmPassword() { return this.registerForm.get('confirmPassword'); }
+  get rIsAdmin() { return this.registerForm.get('isAdmin'); } // Helper para isAdmin
 }
