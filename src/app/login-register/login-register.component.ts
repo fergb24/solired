@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router'; // Importa Router para la redirección
 
 @Component({
   selector: 'app-login-register',
@@ -13,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginRegisterComponent {
   isLogin = true;
 
-  constructor(private authService: AuthService){ 
+  constructor(private authService: AuthService, private router: Router) { // Inyecta Router
 
   } 
 
@@ -52,9 +53,25 @@ export class LoginRegisterComponent {
   onSubmit() {
     if (this.isLogin) {
       if (this.loginForm.valid) {
-        console.log('Datos Login:', this.loginForm.value);
+        const { email, password } = this.loginForm.value;
+  
+        // Verifica que email y password no sean nulos o indefinidos
+        if (email && password) {
+          this.authService.login(email, password).subscribe(
+            response => {
+              localStorage.setItem('token', response.token); // Almacena el token en el almacenamiento local
+              this.router.navigate(['/perfil']); // Redirige al perfil después de iniciar sesión
+            },
+            error => {
+              console.error('Error al iniciar sesión', error);
+            }
+          );
+        } else {
+          console.error('Email o contraseña son inválidos');
+        }
       }
     } else {
+      // Lógica para el registro
       if (this.registerForm.valid) {
         this.authService.register(this.registerForm.value).subscribe(
           response => {
@@ -79,5 +96,4 @@ export class LoginRegisterComponent {
   get rPhone() { return this.registerForm.get('phone'); }
   get rPassword() { return this.registerForm.get('password'); }
   get rConfirmPassword() { return this.registerForm.get('confirmPassword'); }
-  get rIsAdmin() { return this.registerForm.get('isAdmin'); }
 }

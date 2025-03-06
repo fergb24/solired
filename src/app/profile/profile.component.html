@@ -1,0 +1,12 @@
+<div *ngIf="user">
+    <h2>Perfil de Usuario</h2>
+    <p><strong>Nombre:</strong> {{ user.nombre_usu }}</p>
+    <p><strong>Email:</strong> {{ user.email_usu }}</p>
+    <p><strong>Nombre de Usuario:</strong> {{ user.username_usu }}</p>
+    <p><strong>Teléfono:</strong> {{ user.tlf_usu }}</p>
+    <!-- Si tienes una imagen de perfil, puedes mostrarla aquí -->
+    <img *ngIf="user.profileImage" [src]="user.profileImage" alt="Imagen de perfil" />
+  </div>
+  <div *ngIf="!user">
+    <p>No hay información de usuario disponible.</p>
+  </div>
