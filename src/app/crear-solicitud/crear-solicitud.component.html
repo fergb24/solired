@@ -1,0 +1,28 @@
+<div class="container my-5">
+    <div class="card shadow-sm">
+      <div class="card-header" style="background-color: #5AB8FF;">
+        <h4 class="mb-0 text-white fw-bold">Crear solicitud de Ayuda</h4>
+      </div>
+      <div class="card-body" style="background-color: #F5F5F5;">
+        <form [formGroup]="solicitudForm" (ngSubmit)="enviarSolicitud()">
+          <div class="mb-3">
+            <label for="problema" class="form-label">Problema</label>
+            <input type="text" id="problema" formControlName="problema" class="form-control" placeholder="Describe el problema">
+            <div *ngIf="solicitudForm.get('problema')?.invalid && solicitudForm.get('problema')?.touched" class="text-danger">
+              El problema es obligatorio.
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea id="descripcion" formControlName="descripcion" class="form-control" rows="4" placeholder="Detalles adicionales"></textarea>
+            <div *ngIf="solicitudForm.get('descripcion')?.invalid && solicitudForm.get('descripcion')?.touched" class="text-danger">
+              La descripción es obligatoria.
+            </div>
+          </div>
+  
+          <button type="submit" class="btn btn-primary w-100" [disabled]="solicitudForm.invalid">Enviar Solicitud</button>
+        </form>
+      </div>
+    </div>
+</div>
