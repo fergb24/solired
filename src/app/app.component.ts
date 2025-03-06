@@ -25,8 +25,22 @@ export class AppComponent {
     this.router.navigate(['/auth']); // Redirige a la página de login/registro
   }
 
+  // Método para navegar a la página de perfil
+  navigateToProfile(): void {
+    this.router.navigate(['/perfil']); // Redirige a la página de perfil
+  }
+
   // Método para navegar a la página de login/registro
   navigateToLogin(): void {
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/auth']); // Redirige a la página de login/registro
+  }
+
+  // Método para manejar el clic en el botón
+  handleButtonClick(): void {
+    if (this.isLoggedIn()) {
+      this.navigateToProfile(); // Si está autenticado, redirige a perfil
+    } else {
+      this.navigateToLogin(); // Si no está autenticado, redirige a login/registro
+    }
   }
 }

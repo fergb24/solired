@@ -16,7 +16,7 @@
         </li>
       </ul>
       <div class="d-flex">
-        <button class="btn btn-outline-light" (click)="isLoggedIn() ? logout() : navigateToLogin()">
+        <button class="btn btn-outline-light" (click)="handleButtonClick()">
           {{ isLoggedIn() ? 'Perfil' : 'Login/Registro' }}
         </button>
       </div>
