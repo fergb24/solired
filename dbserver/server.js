@@ -93,6 +93,47 @@ app.get('/user', async (req, res) => {
   }
 });
 
+// Endpoint para obtener todas las solicitudes
+app.get('/solicitudes', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM solicitud'); // Asegúrate de que el nombre de la tabla sea correcto
+    res.json(result.rows); // Devuelve las filas como respuesta
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener las solicitudes' });
+  }
+});
+
+// Endpoint para crear una nueva solicitud
+app.post('/solicitudes', async (req, res) => {
+  const { problema_sol, descripcion_sol, aceptada_sol } = req.body;
+
+  // Obtener el token del encabezado
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'No se proporcionó token' });
+  }
+
+  try {
+    // Verificar el token
+    const decoded = jwt.verify(token, 'tu_secreto');
+    const userId = decoded.id; // Extraer el ID del usuario del token
+
+    // Insertar la nueva solicitud en la base de datos
+    const result = await pool.query(
+      `INSERT INTO solicitud (id_usu, problema_sol, descripcion_sol, aceptada_sol)
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [userId, problema_sol, descripcion_sol, aceptada_sol]
+    );
+
+    res.status(201).json(result.rows[0]); // Devuelve la nueva solicitud creada
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al crear la solicitud' });
+  }
+});
+
 // Inicia el servidor
 app.listen(3000, () => {
   console.log('Servidor escuchando en el puerto 3000');

@@ -1,0 +1,34 @@
+<div class="container my-5">
+    <h2 class="text-center">Lista de Solicitudes</h2>
+  
+    <div *ngIf="loading" class="text-center">
+      <p>Cargando solicitudes...</p>
+    </div>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  
+    <div *ngIf="!loading && solicitudes.length === 0" class="alert alert-warning" role="alert">
+      No hay solicitudes disponibles.
+    </div>
+  
+    <table class="table table-bordered" *ngIf="!loading && solicitudes.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Problema</th>
+          <th>Descripción</th>
+          <th>Aceptada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let solicitud of solicitudes">
+          <td>{{ solicitud.id_sol }}</td>
+          <td>{{ solicitud.problema_sol }}</td>
+          <td>{{ solicitud.descripcion_sol }}</td>
+          <td>{{ solicitud.aceptada_sol ? 'Sí' : 'No' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
