@@ -1,0 +1,48 @@
+//Para crear la tabla de usuario
+-- Table: public.usuario
+
+-- DROP TABLE IF EXISTS public.usuario;
+
+CREATE TABLE IF NOT EXISTS public.usuario
+(
+    id_usu integer NOT NULL DEFAULT nextval('usuario_id_usu_seq'::regclass),
+    nombre_usu character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    email_usu character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    username_usu character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    tlf_usu character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    contra_usu character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    is_admin boolean NOT NULL DEFAULT false,
+    CONSTRAINT usuario_pkey PRIMARY KEY (id_usu),
+    CONSTRAINT usuario_email_usu_key UNIQUE (email_usu),
+    CONSTRAINT usuario_tlf_usu_key UNIQUE (tlf_usu),
+    CONSTRAINT usuario_username_usu_key UNIQUE (username_usu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.usuario
+    OWNER to postgres;
+
+//Para crear la tabla solicitud
+-- Table: public.solicitud
+
+-- DROP TABLE IF EXISTS public.solicitud;
+
+CREATE TABLE IF NOT EXISTS public.solicitud
+(
+    id_sol integer NOT NULL DEFAULT nextval('solicitud_id_sol_seq'::regclass),
+    id_usu integer NOT NULL,
+    problema_sol character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    descripcion_sol character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    aceptada_sol boolean NOT NULL DEFAULT false,
+    CONSTRAINT solicitud_pkey PRIMARY KEY (id_sol),
+    CONSTRAINT fk_usuario FOREIGN KEY (id_usu)
+        REFERENCES public.usuario (id_usu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.solicitud
+    OWNER to postgres;
