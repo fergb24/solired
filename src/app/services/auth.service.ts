@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -50,6 +49,15 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
     localStorage.removeItem('user'); // Elimina la información del usuario
+  }
+  
+  // Método para eliminar un usuario
+  deleteUser (userId: number): Observable<any> {
+    return this.http.delete(`http://localhost:3000/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
   }
 
   getUsers(): Observable<any> {

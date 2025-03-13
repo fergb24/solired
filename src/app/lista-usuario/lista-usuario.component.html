@@ -8,6 +8,7 @@
           <th>Username</th>
           <th>Teléfono</th>
           <th>Admin</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -17,7 +18,10 @@
           <td>{{ usuario.username_usu }}</td>
           <td>{{ usuario.tlf_usu }}</td>
           <td>{{ usuario.is_admin ? 'Sí' : 'No' }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="confirmDelete(usuario.id_usu)">Eliminar</button> <!-- Botón de eliminar -->
+          </td>
         </tr>
       </tbody>
     </table>
-  </div>
+</div>

@@ -145,6 +145,28 @@ app.get('/users', async (req, res) => {
   }
 });
 
+/// Endpoint para eliminar un usuario
+app.delete('/users/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Primero, eliminar las solicitudes asociadas
+    await pool.query('DELETE FROM solicitud WHERE id_usu = $1', [userId]);
+
+    // Luego, eliminar el usuario
+    const result = await pool.query('DELETE FROM usuario WHERE id_usu = $1 RETURNING *', [userId]);
+
+    if (result.rows.length > 0) {
+      return res.status(200).json({ message: 'Usuario eliminado con éxito' });
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al eliminar el usuario' });
+  }
+});
+
 // Inicia el servidor
 app.listen(3000, () => {
   console.log('Servidor escuchando en el puerto 3000');

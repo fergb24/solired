@@ -28,4 +28,20 @@ export class ListaUsuarioComponent implements OnInit {
       }
     );
   }
+
+  confirmDelete(userId: number): void {
+    if (confirm('¿Está seguro de que desea eliminar este usuario? Recuerda que si hay solicitudes pendientes de este usuario, también se eliminaran')) {
+      this.authService.deleteUser (userId).subscribe(
+        () => {
+          // Eliminar el usuario de la lista local después de la eliminación exitosa
+          this.usuarios = this.usuarios.filter(usuario => usuario.id_usu !== userId);
+          alert('Usuario eliminado con éxito');
+        },
+        (error) => {
+          console.error('Error al eliminar el usuario', error);
+          alert('Error al eliminar el usuario');
+        }
+      );
+    }
+  }
 }
