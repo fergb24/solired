@@ -1,6 +1,9 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthResponse } from './auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +12,7 @@ export class AuthService {
   private registerUrl = 'http://localhost:3000/register'; // URL del endpoint de registro
   private loginUrl = 'http://localhost:3000/login'; // URL del endpoint de inicio de sesión
   private userUrl = 'http://localhost:3000/user'; // URL del endpoint para obtener información del usuario
+  private usersUrl = 'http://localhost:3000/users'; // URL del endpoint para obtener todos los usuarios
 
   constructor(private http: HttpClient) {}
 
@@ -18,8 +22,14 @@ export class AuthService {
   }
 
   // Método para iniciar sesión
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(this.loginUrl, { email, password });
+  login(email: string, password: string): Observable<AuthResponse> { // Cambia el tipo de retorno
+    return this.http.post<AuthResponse>(this.loginUrl, { email, password }).pipe(
+      tap(response => {
+        // Almacena el token y la información del usuario en localStorage
+        localStorage.setItem('token', response.token); // Almacena el token
+        localStorage.setItem('user', JSON.stringify(response.user)); // Almacena la información del usuario
+      })
+    );
   }
 
   // Método para obtener información del usuario
@@ -39,5 +49,14 @@ export class AuthService {
   // Método para cerrar sesión
   logout(): void {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    localStorage.removeItem('user'); // Elimina la información del usuario
+  }
+
+  getUsers(): Observable<any> {
+    return this.http.get(this.usersUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
   }
 }

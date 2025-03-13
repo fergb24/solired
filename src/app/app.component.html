@@ -14,6 +14,9 @@
         <li class="nav-item">
           <a class="nav-link text-white fw-bold" routerLink="/solicitudes">Solicitudes</a>
         </li>
+        <li class="nav-item" *ngIf="isAdmin()"> <!-- Solo muestra este elemento si el usuario es admin -->
+          <a class="nav-link text-white fw-bold" routerLink="/lista-usuario">Lista de usuarios</a>
+        </li>
       </ul>
       <div class="d-flex">
         <button class="btn btn-outline-light" (click)="handleButtonClick()">

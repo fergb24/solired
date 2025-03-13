@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
@@ -5,7 +6,7 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule],
+  imports: [CommonModule, RouterOutlet, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -17,6 +18,12 @@ export class AppComponent {
   // Método para verificar si el usuario está autenticado
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  // Método para verificar si el usuario es administrador
+  isAdmin(): boolean {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.is_admin; // Verifica si el usuario es administrador
   }
 
   // Método para cerrar sesión

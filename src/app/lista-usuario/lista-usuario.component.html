@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <h2>Lista de Usuarios</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Teléfono</th>
+          <th>Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nombre_usu }}</td>
+          <td>{{ usuario.email_usu }}</td>
+          <td>{{ usuario.username_usu }}</td>
+          <td>{{ usuario.tlf_usu }}</td>
+          <td>{{ usuario.is_admin ? 'Sí' : 'No' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

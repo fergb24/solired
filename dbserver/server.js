@@ -134,6 +134,17 @@ app.post('/solicitudes', async (req, res) => {
   }
 });
 
+// Endpoint para obtener todos los usuarios
+app.get('/users', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id_usu, nombre_usu, email_usu, username_usu, tlf_usu, is_admin FROM usuario');
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener los usuarios' });
+  }
+});
+
 // Inicia el servidor
 app.listen(3000, () => {
   console.log('Servidor escuchando en el puerto 3000');
