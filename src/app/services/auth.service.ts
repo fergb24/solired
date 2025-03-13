@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   // Método para iniciar sesión
-  login(email: string, password: string): Observable<AuthResponse> { // Cambia el tipo de retorno
+  login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(this.loginUrl, { email, password }).pipe(
       tap(response => {
         // Almacena el token y la información del usuario en localStorage
@@ -50,7 +50,7 @@ export class AuthService {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
     localStorage.removeItem('user'); // Elimina la información del usuario
   }
-  
+
   // Método para eliminar un usuario
   deleteUser (userId: number): Observable<any> {
     return this.http.delete(`http://localhost:3000/users/${userId}`, {
@@ -60,8 +60,18 @@ export class AuthService {
     });
   }
 
+  // Método para obtener todos los usuarios
   getUsers(): Observable<any> {
     return this.http.get(this.usersUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
+  // Método para actualizar la información del usuario
+  updateUser (userData: any): Observable<any> {
+    return this.http.put(this.userUrl, userData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }

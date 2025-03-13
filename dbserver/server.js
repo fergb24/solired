@@ -145,7 +145,28 @@ app.get('/users', async (req, res) => {
   }
 });
 
-/// Endpoint para eliminar un usuario
+// Endpoint para actualizar la información del usuario
+app.put('/user', async (req, res) => {
+  const { id_usu, nombre_usu, email_usu, username_usu, tlf_usu } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE usuario SET nombre_usu = $1, email_usu = $2, username_usu = $3, tlf_usu = $4 WHERE id_usu = $5 RETURNING *`,
+      [nombre_usu, email_usu, username_usu, tlf_usu, id_usu]
+    );
+
+    if (result.rows.length > 0) {
+      return res.status(200).json(result.rows[0]);
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar la información del usuario' });
+  }
+});
+
+// Endpoint para eliminar un usuario
 app.delete('/users/:id', async (req, res) => {
   const userId = req.params.id;
 
