@@ -1,27 +1,29 @@
 <div class="container mt-4">
-    <h2>Lista de Usuarios</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Username</th>
-          <th>Teléfono</th>
-          <th>Admin</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuarios">
-          <td>{{ usuario.nombre_usu }}</td>
-          <td>{{ usuario.email_usu }}</td>
-          <td>{{ usuario.username_usu }}</td>
-          <td>{{ usuario.tlf_usu }}</td>
-          <td>{{ usuario.is_admin ? 'Sí' : 'No' }}</td>
-          <td>
-            <button class="btn btn-danger" (click)="confirmDelete(usuario.id_usu)">Eliminar</button> <!-- Botón de eliminar -->
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="text-center mb-4 bg-light bg-opacity-75 p-3 rounded" style="background-color: rgba(245, 245, 245, 0.8);">
+      <h2 class="fw-bold">Lista de usuarios</h2>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Teléfono</th>
+        <th>Admin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre_usu }}</td>
+        <td>{{ usuario.email_usu }}</td>
+        <td>{{ usuario.username_usu }}</td>
+        <td>{{ usuario.tlf_usu }}</td>
+        <td>{{ usuario.is_admin ? 'Sí' : 'No' }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="confirmDelete(usuario.id_usu)">Eliminar</button> <!-- Botón de eliminar -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
