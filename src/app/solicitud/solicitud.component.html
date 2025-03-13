@@ -1,34 +1,30 @@
 <div class="container my-5">
-    <h2 class="text-center">Lista de Solicitudes</h2>
-  
-    <div *ngIf="loading" class="text-center">
-      <p>Cargando solicitudes...</p>
-    </div>
-  
-    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-      {{ errorMessage }}
-    </div>
-  
-    <div *ngIf="!loading && solicitudes.length === 0" class="alert alert-warning" role="alert">
-      No hay solicitudes disponibles.
-    </div>
-  
-    <table class="table table-bordered" *ngIf="!loading && solicitudes.length > 0">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Problema</th>
-          <th>Descripción</th>
-          <th>Aceptada</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let solicitud of solicitudes">
-          <td>{{ solicitud.id_sol }}</td>
-          <td>{{ solicitud.problema_sol }}</td>
-          <td>{{ solicitud.descripcion_sol }}</td>
-          <td>{{ solicitud.aceptada_sol ? 'Sí' : 'No' }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="bg-light bg-opacity-75 p-3 rounded">
+      <h2 class="text-center text-dark mb-4 fw-bold">Lista de Solicitudes</h2>
   </div>
+
+  <div *ngIf="loading" class="text-center">
+      <p>Cargando solicitudes...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && solicitudes.length === 0" class="alert alert-warning" role="alert">
+      No hay solicitudes disponibles.
+  </div>
+
+  <div class="row mt-4">
+      <div class="col-md-4" *ngFor="let solicitud of solicitudes">
+          <div class="card mb-4" style="background-color: rgba(245, 245, 245, 0.8);">
+              <div class="card-body">
+                  <h5 class="card-title fw-bold" style="font-size: 1.50rem;">{{ solicitud.problema_sol }}</h5>
+                  <hr class="my-2">
+                  <p class="card-text">{{ solicitud.descripcion_sol }}</p>
+                  <p class="card-text"><strong>Aceptada:</strong> {{ solicitud.aceptada_sol ? 'Sí' : 'No' }}</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
