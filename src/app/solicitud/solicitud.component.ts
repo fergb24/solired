@@ -35,4 +35,23 @@ export class SolicitudComponent implements OnInit {
         }
       );
   }
+
+  // Método para aceptar una solicitud
+  aceptarSolicitud(id_sol: number): void {
+    this.http.put(`http://localhost:3000/solicitudes/${id_sol}`, { aceptada_sol: true })
+      .subscribe(
+        () => {
+          // Actualiza la solicitud en la lista local
+          const solicitud = this.solicitudes.find(s => s.id_sol === id_sol);
+          if (solicitud) {
+            solicitud.aceptada_sol = true; // Cambia el estado a aceptada
+          }
+          alert('Solicitud aceptada con éxito');
+        },
+        (error) => {
+          console.error('Error al aceptar la solicitud', error);
+          alert('Error al aceptar la solicitud');
+        }
+      );
+  }
 }

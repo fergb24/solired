@@ -145,6 +145,28 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// Endpoint para aceptar una solicitud
+app.put('/solicitudes/:id', async (req, res) => {
+  const { id } = req.params; // Obtener el ID de la solicitud desde los parámetros
+  const { aceptada_sol } = req.body; // Obtener el nuevo estado de aceptada_sol desde el cuerpo de la solicitud
+
+  try {
+    const result = await pool.query(
+      `UPDATE solicitud SET aceptada_sol = $1 WHERE id_sol = $2 RETURNING *`,
+      [aceptada_sol, id]
+    );
+
+    if (result.rows.length > 0) {
+      return res.status(200).json(result.rows[0]); // Devuelve la solicitud actualizada
+    } else {
+      return res.status(404).json({ message: 'Solicitud no encontrada' }); // Manejo de error si no se encuentra la solicitud
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar la solicitud' }); // Manejo de error en caso de fallo
+  }
+});
+
 // Endpoint para actualizar la información del usuario
 app.put('/user', async (req, res) => {
   const { id_usu, nombre_usu, email_usu, username_usu, tlf_usu } = req.body;
